@@ -17,26 +17,30 @@ int main()
 */
 void name(int card_number)
 {
-    if (1 < card_number || card_number > 13)
+    if (card_number < 1 || card_number > 13)
     {
-        printf("BAD CARD");
+        printf("BAD CARD\n");
+        return;
     }
 
     switch (card_number)
     {
     case 1:
-        printf("Drew an Ace");
+        printf("Drew an Ace\n");
+        return;
+    case 8:
+        printf("Drew an 8\n");
         return;
     case 11:
-        printf("Drew a Jack");
+        printf("Drew a Jack\n");
         return;
     case 12:
-        printf("Drew a Queen");
+        printf("Drew a Queen\n");
         return;
     case 13:
-        printf("Drew a King");
+        printf("Drew a King\n");
         return;
     default:
-        printf("Drew a %d \n", card_number);
+        printf("Drew a %d\n", card_number);
     }
 }
