@@ -6,24 +6,66 @@
 void name(int card_number);
 int card_value(int card_number);
 void print_card_value(int card_number);
-void end_status(int hand_value);
-void dealer();
-void user();
+int end_status(int hand_value);
+int dealer();
+int user();
+void game();
 
 int main()
 {
     srand(time(NULL));
-    user();
+    game();
     return 0;
+}
+
+void game()
+{
+    int dealer_score, user_score;
+
+    printf("-----------\n");
+    printf("YOUR TURN\n");
+    printf("-----------\n");
+
+    user_score = user();
+
+    printf("-----------\n");
+    printf("DEALER TURN\n");
+    printf("-----------\n");
+
+    dealer_score = dealer();
+
+    printf("-----------\n");
+    printf("GAME RESULT\n");
+    printf("-----------\n");
+
+    if (user_score == -1)
+    {
+        printf("Dealer wins!\n");
+    }
+    else if (user_score > dealer_score)
+    {
+        printf("You win!\n");
+    }
+    else if (user_score < dealer_score)
+    {
+        printf("Dealer wins!\n");
+    }
+    else
+    {
+        printf("Push.\n");
+    }
 }
 
 /*
     This function handles part of the gameplay. It draws cards for users
     and, when appropriate, asks users to choose to hit. It also prints the
     relevent game end status.
+
+    Returns:
+    The dealer's total hand value.
 */
 
-void dealer()
+int dealer()
 {
     int hand_1, hand_2, dealer_hand_value = 0, extra_hand;
 
@@ -46,13 +88,17 @@ void dealer()
 
     printf("Final hand: %d.\n", dealer_hand_value);
     end_status(dealer_hand_value);
+
+    return dealer_hand_value;
 }
 
 /*
     This function draws cards for a user, prints the drawn card, and gives the
     user the option to either continue drawing or stop drawing.
+
+    It returns -1 if a user busts. And the user's hand value otherwise.
 */
-void user()
+int user()
 {
     char choice;
     int hand_1, hand_2, user_hand_value = 0, extra_hand, should_keep_drawing = 1;
@@ -93,7 +139,13 @@ void user()
     }
 
     printf("Final hand: %d.\n", user_hand_value);
-    end_status(user_hand_value);
+
+    if (end_status(user_hand_value) == 1)
+    {
+        return -1;
+    }
+
+    return user_hand_value;
 }
 
 /*
@@ -190,25 +242,30 @@ void print_card_value(int card_number)
 
     Parameters:
     - hand_value: a player's hand value
-*/
 
-void end_status(int hand_value)
+    Returns:
+    It returns 1 if a user busts. Returns -1 if it recieves invalid input.
+    And returns 0 otherwise.
+*/
+int end_status(int hand_value)
 {
     if (hand_value < 4 || hand_value > 31)
     {
         printf("BAD HAND VALUE!\n");
-        return;
+        return -1;
     }
 
     if (hand_value == 21)
     {
-        printf("BLACJACK!\n");
-        return;
+        printf("BLACKJACK!\n");
+        return 0;
     }
 
     if (hand_value > 21)
     {
         printf("BUST!\n");
-        return;
+        return 1;
     }
+
+    return 0;
 }
