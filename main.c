@@ -1,13 +1,48 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 void name(int card_number);
 int card_value(int card_number);
 void print_card_value(int card_number);
 void end_status(int hand_value);
+void dealer();
 
 int main()
 {
+    srand(time(NULL));
     return 0;
+}
+
+/*
+    This function handles part of the gameplay. It draws cards for users
+    and, when appropriate, asks users to choose to hit. It also prints the
+    relevent game end status when appropriate.
+*/
+
+void dealer()
+{
+    int hand_1, hand_2, dealer_hand_value = 0, extra_hand;
+
+    hand_1 = rand() % 13 + 1;
+    hand_2 = rand() % 13 + 1;
+
+    name(hand_1);
+    name(hand_2);
+
+    dealer_hand_value += card_value(hand_1) + card_value(hand_2);
+
+    while (dealer_hand_value <= 17)
+    {
+        printf("Dealer has %d.\n", dealer_hand_value);
+
+        extra_hand = rand() % 13 + 1;
+        name(extra_hand);
+        dealer_hand_value += card_value(extra_hand);
+    }
+
+    printf("Final hand: %d.\n", dealer_hand_value);
+    end_status(dealer_hand_value);
 }
 
 /*
@@ -90,7 +125,7 @@ void print_card_value(int card_number)
     switch (card_value(card_number))
     {
     case -1:
-        printf("BAD CARD");
+        printf("BAD CARD\n");
     default:
         printf("Your hand value is %d.\n", card_number);
     }
@@ -110,19 +145,19 @@ void end_status(int hand_value)
 {
     if (hand_value < 4 || hand_value > 31)
     {
-        printf("BAD HAND VALUE!");
+        printf("BAD HAND VALUE!\n");
         return;
     }
 
     if (hand_value == 21)
     {
-        printf("BLACJACK!");
+        printf("BLACJACK!\n");
         return;
     }
 
     if (hand_value > 21)
     {
-        printf("BUST");
+        printf("BUST!\n");
         return;
     }
 }
