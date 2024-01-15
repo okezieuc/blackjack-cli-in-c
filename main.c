@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 void name(int card_number);
-void value(int card_number);
+int card_value(int card_number);
+void print_card_value(int card_number);
 void end_status(int hand_value);
 
 int main()
@@ -49,31 +50,49 @@ void name(int card_number)
 
 /*
     This function prints the value of card. If it recieves an invalid
-    card number, it prints "BAD CARD."
+    card number, it returns -1.
 
     Parameters:
-    - card_number: The number of the card whose value is to be printed
+    - card_number: The number of the card whose value is to be evaluated.
+
+    Returns:
+    The value of a card or -1 if an invalid card number is received.
 */
-void value(int card_number)
+int card_value(int card_number)
 {
     if (card_number < 1 || card_number > 13)
     {
-        printf("BAD CARD");
-        return;
+        return -1;
     }
 
     switch (card_number)
     {
     case 1:
-        printf("Your hand value is 11");
-        return;
+        return 11;
     case 11:
     case 12:
     case 13:
-        printf("Your hand value is 10");
-        return;
+        return 10;
     default:
-        printf("Your hand value is %d\n", card_number);
+        return card_number;
+    }
+}
+
+/*
+    This function uses card_value() to get the value of a card and prints it
+    to the console.
+
+    Parameters:
+    - card_number: The number of the card whose value is to be printed.
+*/
+void print_card_value(int card_number)
+{
+    switch (card_value(card_number))
+    {
+    case -1:
+        printf("BAD CARD");
+    default:
+        printf("Your hand value is %d.\n", card_number);
     }
 }
 
