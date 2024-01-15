@@ -11,6 +11,7 @@ int dealer();
 int user();
 void game();
 void print_header(char *message);
+int draw_card();
 
 int main()
 {
@@ -62,11 +63,8 @@ int dealer()
 {
     int hand_1, hand_2, dealer_hand_value = 0, extra_hand;
 
-    hand_1 = rand() % 13 + 1;
-    hand_2 = rand() % 13 + 1;
-
-    name(hand_1);
-    name(hand_2);
+    hand_1 = draw_card();
+    hand_2 = draw_card();
 
     dealer_hand_value += card_value(hand_1) + card_value(hand_2);
 
@@ -74,8 +72,7 @@ int dealer()
     {
         printf("Dealer has %d.\n", dealer_hand_value);
 
-        extra_hand = rand() % 13 + 1;
-        name(extra_hand);
+        extra_hand = draw_card();
         dealer_hand_value += card_value(extra_hand);
     }
 
@@ -96,11 +93,8 @@ int user()
     char choice;
     int hand_1, hand_2, user_hand_value = 0, extra_hand, should_keep_drawing = 1;
 
-    hand_1 = rand() % 13 + 1;
-    hand_2 = rand() % 13 + 1;
-
-    name(hand_1);
-    name(hand_2);
+    hand_1 = draw_card();
+    hand_2 = draw_card();
 
     user_hand_value += card_value(hand_1) + card_value(hand_2);
 
@@ -116,9 +110,7 @@ int user()
 
         if (choice == 'y')
         {
-            extra_hand = rand() % 13 + 1;
-
-            name(extra_hand);
+            extra_hand = draw_card();
             user_hand_value += card_value(extra_hand);
         }
         else if (choice == 'n')
@@ -139,6 +131,20 @@ int user()
     }
 
     return user_hand_value;
+}
+
+/*
+    This function generates a random card number, prints the name of the card
+    and returns the card number.
+
+    Returns:
+    The card number.
+*/
+int draw_card()
+{
+    int card_number = rand() % 13 + 1;
+    name(card_number);
+    return card_number;
 }
 
 /*
