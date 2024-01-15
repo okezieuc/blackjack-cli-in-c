@@ -1,23 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 void name(int card_number);
 int card_value(int card_number);
 void print_card_value(int card_number);
 void end_status(int hand_value);
 void dealer();
+void user();
 
 int main()
 {
     srand(time(NULL));
+    user();
     return 0;
 }
 
 /*
     This function handles part of the gameplay. It draws cards for users
     and, when appropriate, asks users to choose to hit. It also prints the
-    relevent game end status when appropriate.
+    relevent game end status.
 */
 
 void dealer()
@@ -43,6 +46,54 @@ void dealer()
 
     printf("Final hand: %d.\n", dealer_hand_value);
     end_status(dealer_hand_value);
+}
+
+/*
+    This function draws cards for a user, prints the drawn card, and gives the
+    user the option to either continue drawing or stop drawing.
+*/
+void user()
+{
+    char choice;
+    int hand_1, hand_2, user_hand_value = 0, extra_hand, should_keep_drawing = 1;
+
+    hand_1 = rand() % 13 + 1;
+    hand_2 = rand() % 13 + 1;
+
+    name(hand_1);
+    name(hand_2);
+
+    user_hand_value += card_value(hand_1) + card_value(hand_2);
+
+    while (user_hand_value < 21 && should_keep_drawing)
+    {
+        printf("You have %d. Hit (y/n)? ", user_hand_value);
+        scanf("%c", &choice);
+
+        while (choice == '\n')
+        {
+            scanf("%c", &choice);
+        }
+
+        if (choice == 'y')
+        {
+            extra_hand = rand() % 13 + 1;
+
+            name(extra_hand);
+            user_hand_value += card_value(extra_hand);
+        }
+        else if (choice == 'n')
+        {
+            should_keep_drawing = 0;
+        }
+        else
+        {
+            printf("Sorry I didn't get that.\n");
+        }
+    }
+
+    printf("Final hand: %d.\n", user_hand_value);
+    end_status(user_hand_value);
 }
 
 /*
