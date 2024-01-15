@@ -10,6 +10,7 @@ int end_status(int hand_value);
 int dealer();
 int user();
 void game();
+void print_header(char *message);
 
 int main()
 {
@@ -22,21 +23,13 @@ void game()
 {
     int dealer_score, user_score;
 
-    printf("-----------\n");
-    printf("YOUR TURN\n");
-    printf("-----------\n");
-
+    print_header("YOUR TURN");
     user_score = user();
 
-    printf("-----------\n");
-    printf("DEALER TURN\n");
-    printf("-----------\n");
-
+    print_header("DEALER TURN");
     dealer_score = dealer();
 
-    printf("-----------\n");
-    printf("GAME RESULT\n");
-    printf("-----------\n");
+    print_header("GAME RESULT");
 
     if (user_score == -1)
     {
@@ -268,4 +261,11 @@ int end_status(int hand_value)
     }
 
     return 0;
+}
+
+void print_header(char *message)
+{
+    printf("-----------\n");
+    printf("%s\n", message);
+    printf("-----------\n");
 }
